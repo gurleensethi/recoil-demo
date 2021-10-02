@@ -7,16 +7,21 @@ import DescriptionIcon from "@mui/icons-material/Description";
 
 export interface ContentItemListItemProps {
   contentItem: ContentItem;
+  onClick: () => void;
 }
 
-const ContentItemListItem: FC<ContentItemListItemProps> = ({ contentItem }) => {
+const ContentItemListItem: FC<ContentItemListItemProps> = ({
+  contentItem,
+  onClick,
+}) => {
   const isFolder = isContentFolder(contentItem);
 
   const { name } = contentItem;
 
   return (
-    <Grid item xs={12} sm={4} md={3}>
+    <Grid item xs={6} sm={4} md={3}>
       <Card
+        onClick={onClick}
         sx={{
           boxShadow: 2,
           borderRadius: 2,
@@ -60,7 +65,6 @@ const ContentItemListItem: FC<ContentItemListItemProps> = ({ contentItem }) => {
         >
           {name}
         </Typography>
-        {isFolder}
       </Card>
     </Grid>
   );

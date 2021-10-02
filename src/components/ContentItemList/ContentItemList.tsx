@@ -1,56 +1,32 @@
-import { Grid, List } from "@mui/material";
+import { Grid } from "@mui/material";
 import { FC } from "react";
-import { ContentFile, ContentFolder } from "../../types/model";
+import { ContentFile, ContentFolder, ContentItem } from "../../types/model";
+import { isContentFile, isContentFolder } from "../../utils/type-guards";
 import ContentItemListItem from "./ContentItem";
 
-export interface ContentItemListProps {}
+export interface ContentItemListProps {
+  contentItems: ContentItem[];
+  onFileClick: (contentFile: ContentFile) => void;
+  onFolderClick: (contentFolder: ContentFolder) => void;
+}
 
-const DEMO_LIST: (ContentFile | ContentFolder)[] = [
-  {
-    id: "anc",
-    createdAt: Date.now(),
-    name: "Notes",
-    parentId: "root",
-    content: "# Hello World",
-  },
-  {
-    id: "anc",
-    createdAt: Date.now(),
-    name: "Notes",
-    parentId: "root",
-    children: [],
-  },
-  {
-    id: "anc",
-    createdAt: Date.now(),
-    name: "Notes",
-    parentId: "root",
-    children: [],
-  },
-  {
-    id: "anc",
-    createdAt: Date.now(),
-    name: "Notes",
-    parentId: "root",
-    content: "# Hello World",
-  },
-  {
-    id: "anc",
-    createdAt: Date.now(),
-    name: "Notes",
-    parentId: "root",
-    content: "# Hello World",
-  },
-];
+const ContentItemList: FC<ContentItemListProps> = ({
+  contentItems,
+  onFileClick,
+  onFolderClick,
+}) => {
+  const handleItemClick = (contentItem: ContentItem) => {
+    if (isContentFolder(contentItem)) {
+      onFolderClick(contentItem);
+    } else if (isContentFile(contentItem)) {
+      onFileClick(contentItem);
+    }
+  };
 
-const ContentItemList: FC<ContentItemListProps> = () => {
   return (
     <Grid
       container
-      justifyContent={{
-        xs: "center",
-        sm: "flex-start",
-      }}
+      justifyContent="flex-start"
       mx="auto"
       sx={{
         maxWidth: (theme) => {
@@ -59,8 +35,12 @@ const ContentItemList: FC<ContentItemListProps> = () => {
       }}
       direction="row"
     >
-      {DEMO_LIST.map((item) => (
-        <ContentItemListItem contentItem={item} key={item.id} />
+      {contentItems.map((item) => (
+        <ContentItemListItem
+          contentItem={item}
+          key={item.id}
+          onClick={() => handleItemClick(item)}
+        />
       ))}
     </Grid>
   );

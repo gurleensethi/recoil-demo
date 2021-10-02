@@ -10,5 +10,5 @@ export interface ContentFile extends ContentItem {
 }
 
 export interface ContentFolder extends ContentItem {
-  children: (ContentFile | ContentFolder)[];
+  childItems: (ContentFile | ContentFolder)[];
 }

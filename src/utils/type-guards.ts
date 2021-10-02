@@ -5,5 +5,7 @@ export function isContentFile(obj: ContentItem): obj is ContentFile {
 }
 
 export function isContentFolder(obj: ContentItem): obj is ContentFolder {
-  return obj && !!(obj as any).children && Array.isArray((obj as any).children);
+  return (
+    obj && !!(obj as any).childItems && Array.isArray((obj as any).childItems)
+  );
 }

@@ -1,1 +1,25 @@
-{}
+{
+  "content-items": [
+    {
+      "id": "123",
+      "name": "TextFile",
+      "parentId": "root",
+      "createdAt": 0,
+      "content": "This is a test"
+    },
+    {
+      "id": "123-folder",
+      "name": "Folder",
+      "parentId": "root",
+      "createdAt": 0,
+      "childItems": []
+    },
+    {
+      "id": "123-child",
+      "name": "TextFile",
+      "parentId": "123-folder",
+      "createdAt": 0,
+      "content": "This is a test"
+    }
+  ]
+}
