@@ -1,17 +1,26 @@
-import { atom, selector } from "recoil";
+import { atom, DefaultValue, selectorFamily } from "recoil";
 import { getContentItems } from "../api/content-items";
 import { ContentItem } from "../types/model";
 
-export const currentParentId = atom({
-  key: "Content/currentParentId",
-  default: "root",
+const contentItemsReset = atom({
+  key: "Content/contentItems",
+  default: 0,
 });
 
-export const contentItems = selector<ContentItem[]>({
+export const contentItems = selectorFamily<ContentItem[], string>({
   key: "Content/contentItems",
-  get: async ({ get }) => {
-    const parentId = get(currentParentId);
-    const result = await getContentItems(parentId);
-    return result;
-  },
+  get:
+    (id: string) =>
+    async ({ get }) => {
+      get(contentItemsReset);
+      const result = await getContentItems(id);
+      return result;
+    },
+  set:
+    (id: string) =>
+    ({ set }, value) => {
+      if (value instanceof DefaultValue) {
+        set(contentItemsReset, (prev) => prev + 1);
+      }
+    },
 });
